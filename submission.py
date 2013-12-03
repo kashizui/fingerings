@@ -1,6 +1,8 @@
 """
 CS221 Assignment 'ner'
 Owner: Arun Chaganty
+
+As completed by Stephen Koo, Autumn 2013.
 """
 
 import itertools as it

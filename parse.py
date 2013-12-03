@@ -147,13 +147,12 @@ class Score(object):
 		return iter(self.passages)
 
 def parse_line(line, relative=True):
+	"""Parses a single line of Lilypond notes into the integer note values."""
 	ss = StringIO.StringIO(line)
 	score = Score(ss, relative)
 	return score.passages[0][0]
 
 def pretty_format(fingerings):
+	"""Returns an array of fingerings (ints) as a tab-separated string."""
 	return '\t'.join( map(str, fingerings) )
 
-# TODO: Passage class, with ability to parse one line
-# function to return pretty string form of notes
-# function to return pretty string form of fingerings (with notes?)

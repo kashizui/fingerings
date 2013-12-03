@@ -118,29 +118,6 @@ class Counters:
                 count += 1
         return err
 
-def loadData(path):
-    """Load data from BO format"""
-    dataset = []
-    sentence, tags = [], []
-    for line in open( path, 'r' ):
-        line = line.strip()
-
-        if line == "": # End of sentence
-            assert len(sentence) == len(tags)
-            if len(sentence) > 0:
-                dataset.append( (sentence, tags) )
-            sentence, tags = [], []
-        else:
-            word, tag = line.split('\t')
-            word, tag = word.strip(), tag.strip()
-
-            if word == "-DOCSTART-":
-                continue # Skip
-            else: 
-                sentence.append(word)
-                tags.append("-%s-"%(tag))
-    return dataset
-
 
 def update_progress(progress):
     """

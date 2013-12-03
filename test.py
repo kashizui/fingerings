@@ -10,7 +10,8 @@ raw_filenames = [os.path.join(source, path) for path in os.listdir(source)]
 
 for filename in raw_filenames:
 
-	s = Score(filename, relative=True)
+	with open(filename) as f:
+		s = Score(f, relative=True)
 
 	for passage in s:
 		print passage
