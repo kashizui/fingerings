@@ -1,8 +1,10 @@
-import utils
 import os
-from parser import Score
+import json
+from parse import Score
 
-source = utils.config['data_dir']
+with open("config.json") as fp:
+    config = json.load(fp)
+source = config['data_dir']
 
 raw_filenames = [os.path.join(source, path) for path in os.listdir(source)]
 
