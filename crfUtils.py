@@ -121,13 +121,13 @@ def reportF1( dataset, crf, printConfusionMatrix = True ):
 
     if printConfusionMatrix:
         print "Rows are true counts, columns are predicted counts"
-        print 'T\P\t' + '\t'.join( crf.TAGS )
+        print 'T\P\t' + '\t'.join( map(str, crf.TAGS) )
         for tag in crf.TAGS:
-            print tag + '\t' + '\t'.join( str(confusionMatrix[(tag,tag_)]) for tag_ in crf.TAGS )
+            print str(tag) + '\t' + '\t'.join( str(confusionMatrix[(tag,tag_)]) for tag_ in crf.TAGS )
 
     # Only compute F1 scores for the special classes
     tags = list(crf.TAGS)
-    tags.remove('-O-')
+    # tags.remove('-O-')
 
     precisions, recalls = {}, {}
     for tag in tags:

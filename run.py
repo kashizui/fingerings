@@ -9,22 +9,14 @@ Run 'python run.py' for options and help.
 
 from submission import *
 import crfUtils
+import features
+from parse import Score, parse_line, pretty_format
 import util
+import os
 
-def get_feature_function(name):
-    """
-    Get feature function
-    """
-    if name == 'unary':
-        return unaryFeatureFunction
-    elif name == 'binary':
-        return binaryFeatureFunction
-    elif name == 'ner':
-        return nerFeatureFunction
-    elif name == 'betterNer':
-        return nerFeatureFunction
-    else:
-        raise ValueError('No such feature function')
+def load_all_data(directory):
+    filenames = [os.path.join(directory, path) for path in os.listdir(directory)]
+    return sum((Score(open(filename), relative=True).passages for filename in filenames), [])
 
 def run_command_line(args):
     """Run a command line interpreter"""
@@ -43,14 +35,14 @@ def run_command_line(args):
         def do_viterbi(self, value):
             """Run the viterbi algorithm on input to produce the most
             likely labelling"""
-            xs = value.split()
+            xs = parse_line(value)
             ys = computeViterbi(crf, xs)
-            print '\t'.join( ys )
+            print pretty_format(ys)
 
         def do_gibbs_best(self, value):
             """Run Gibbs sampling to produce the best labelling for
             given input value"""
-            xs = value.split()
+            xs = parse_line(value)
 
             ys = computeGibbsBestSequence( 
                     self.crf, 
@@ -59,12 +51,12 @@ def run_command_line(args):
                     xs,
                     10000 )
 
-            print '\t'.join( ys )
+            print pretty_format(ys)
 
         def do_gibbs_dist(self, value):
             """Run Gibbs sampling to produce the best labelling for
             given input value"""
-            xs = value.split()
+            xs = parse_line(value)
 
             ys = computeGibbsProbabilities( 
                     self.crf, 
@@ -74,12 +66,12 @@ def run_command_line(args):
                     10000 )
 
             for label, pr in ys.most_common(10):
-                print pr, '\t', '\t'.join( label )
+                print pr, '\t', pretty_format(label)
 
         def do_lrgibbs_best(self, value):
             """Run Gibbs sampling to produce the best labelling for
             given input value"""
-            xs = value.split()
+            xs = parse_line(value)
 
             ys = computeGibbsBestSequence( 
                     self.crf, 
@@ -88,12 +80,12 @@ def run_command_line(args):
                     xs,
                     10000 )
 
-            print '\t'.join( ys )
+            print pretty_format(ys)
 
         def do_lrgibbs_dist(self, value):
             """Run Gibbs sampling to produce the best labelling for
             given input value"""
-            xs = value.split()
+            xs = parse_line(value)
 
             ys = computeGibbsProbabilities( 
                     self.crf, 
@@ -103,7 +95,7 @@ def run_command_line(args):
                     10000 )
 
             for label, pr in ys.most_common(10):
-                print pr, '\t', '\t'.join( label )
+                print pr, '\t', pretty_format(label)
 
         def do_quit(self, value):
             """Exit the interpreter"""
@@ -113,7 +105,7 @@ def run_command_line(args):
             return True 
 
     states, parameters = pickle.load( args.parameters )
-    featureFunction = get_feature_function( args.featureFunction )
+    featureFunction = features.extract #get_feature_function( args.featureFunction )
 
     crf = LinearChainCRF( states, featureFunction, parameters ) 
     cmdline = CRFCommandLine(crf)
@@ -121,11 +113,11 @@ def run_command_line(args):
 
 def run_trainer(args):
     import pickle
-    featureFunction = get_feature_function( args.featureFunction )
+    featureFunction = features.extract #get_feature_function( args.featureFunction )
     print "Loading dataset..."
-    train = util.loadData( args.trainData )[:args.numData]
+    train = load_all_data( args.trainData )
     try:
-        dev = util.loadData( args.devData )[:2000]
+        dev = load_all_data( args.devData )
     except IOError:
         print 'Could not load dev data, ignoring.'
         dev = []
@@ -142,18 +134,16 @@ def run_trainer(args):
 if __name__ == '__main__':
     import argparse
 
-    parser = argparse.ArgumentParser( description='Named Entity Recognition assignment runner' )
+    parser = argparse.ArgumentParser( description='Piano Fingering Generator' )
     subparsers = parser.add_subparsers()
 
     shell_parser = subparsers.add_parser('shell', help='Open up a shell to interact with a model' )
     shell_parser.add_argument('--parameters', required=True, type=file, help='Use the parameters stored in this file for your CRF' )
-    shell_parser.add_argument('--featureFunction', type=str, default='binary', choices=['unary', 'binary', 'ner', 'betterNer'], help='Feature function to use for your CRF' )
     shell_parser.set_defaults(func=run_command_line)
 
     train_parser = subparsers.add_parser('train', help='Train a CRF' )
-    train_parser.add_argument('--featureFunction', type=str, default='binary', choices=['unary', 'binary', 'ner', 'betterNer'], help='Feature function to use for your CRF' )
-    train_parser.add_argument('--trainData', type=str, default='data/eng.train.BO', help='File path to use for training-set data' )
-    train_parser.add_argument('--devData', type=str, default='data/eng.dev.BO', help='File path to use for development-set data' )
+    train_parser.add_argument('--trainData', type=str, default='manual', help='Directory to use for training-set data' )
+    train_parser.add_argument('--devData', type=str, default='manual', help='Directory to use for development-set data' )
     train_parser.add_argument('--numData', type=int, default=2000, help='Amount of data to load' )
     train_parser.add_argument('--iters', type=int, default=10, help='Number of iterations to run' )
     train_parser.add_argument('--output-path', default='', type=str, help='Path to store the trained wieghts' )

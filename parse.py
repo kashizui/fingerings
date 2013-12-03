@@ -1,6 +1,7 @@
 import re
 import util
 import math
+import StringIO
 
 NOTE = re.compile(r"([a-g](?:is|es){0,2})(['|,]*)")
 FINGERING = re.compile(r'-([1-5])|\^"([1-5])"')
@@ -58,18 +59,8 @@ LETTER = {
 
 NUM_LETTERS = 7
 
-def get_natural_pitch(letter):
-	natural_pitch = PITCH_CLASS[letter[0]]
-	pitch = PITCH_CLASS[letter]
-	if natural_pitch - pitch > 2:
-		natural_pitch -= OCTAVE_SIZE
-	elif pitch - natural_pitch > 2:
-		natural_pitch += OCTAVE_SIZE
-	return natural_pitch
-
-
 class Score(object):
-	def __init__(self, filename, relative=False, sep=None):
+	def __init__(self, fp, relative=False, sep=None):
 		"""
 		Initialize Score from a file containing notes (and fingerings) in LilyPond format.
 
@@ -81,13 +72,12 @@ class Score(object):
 		self.relative = relative
 		self.prev_natural = None
 
-		with open(filename, 'r') as f:
-			if sep is None:
-				for line in f:
-					self.parse(line)
-			else:
-				for line in util.itersplit(f.read(), sep):
-					self.parse(line)
+		if sep is None:
+			for line in fp:
+				self.parse(line)
+		else:
+			for line in util.itersplit(fp.read(), sep):
+				self.parse(line)
 
 	def read_note(self, token):
 		note_match = NOTE.match(token)
@@ -134,14 +124,17 @@ class Score(object):
 
 	def parse(self, line):
 		passage = []
+		fingerings = []
 		for token in util.itersplit(line):
 			note = self.read_note(token)
 			fingering = self.read_fingering(token)
 
 			if note is not None:
-				passage.append((note, fingering))
+				passage.append(note)
+				fingerings.append(fingering)
+				# passage.append((note, fingering))
 
-		self.passages.append(passage)
+		self.passages.append((passage, fingerings))
 
 	def __iter__(self):
 		"""
@@ -153,3 +146,14 @@ class Score(object):
 		"""
 		return iter(self.passages)
 
+def parse_line(line, relative=True):
+	ss = StringIO.StringIO(line)
+	score = Score(ss, relative)
+	return score.passages[0][0]
+
+def pretty_format(fingerings):
+	return '\t'.join( map(str, fingerings) )
+
+# TODO: Passage class, with ability to parse one line
+# function to return pretty string form of notes
+# function to return pretty string form of fingerings (with notes?)
