@@ -1,0 +1,10 @@
+c''16[(-5  bes-4 aes-3  g)]-2  aes8[-3 f]-1 des'4-4 ~ des16[-4 c(-3 bes-2  a)]-1  bes8[-2 g]-1 e'4-3   ~  e16[-3 f(-1 g-2  aes)]-3  bes8[(-4 g16-2  e)]-1  des!8[(-2  c)]-1 bes16[(-3 aes-2 g-1 aes]-2  bes[-3 des-5 c-4 bes]-3  aes[-2 g-1 f-2  e)]-1 aes8[-3 f']-1
+f16[-1 g(-2   aes-3 g-2  ]  f[-1 ees-3 des-2  c)]-1 bes8[-2 g']-1 ~  g16[-1 aes(-2 bes-3 aes]-2  g[-1 f-4   e-3    d)]-2 
+c[(-1 d-2 e-3 f]-1  g[-2 aes-3 bes-4 g]-2  f[-1 e-2 f-3  e)]-2 f8[-3 c]-1 ~  c16[-1
+bes-3 aes-2 g]-1  f[(-2  e)-1 aes(-3  g)]-2 c16[-5  bes-4 aes-3 g]-2  aes8[-3 f]-1 aes'4-5 ~
+aes16[-5 g(-4  f-3   e)]-2  f8[-4   d]-2 b4-1 ~ b16[-1 c-2 d-3 ees!]-4  f8[-5 d16-3 b]-1  aes!8[-2 g]-1 ~ g16[(-1 f-3 ees-2  d)]-1  ees8[-2 c]-1 ees'4-5 ~ ees16[-5 d(-4 c-3  b)]-2  c8[-3   a]-1
+fis'4-2 ~ fis16[-2 g(-1 a-3  bes)]-4  c8[(-5 a16-4  fis)]-3  ees!8[(-2  d)]-1
+b4.^\downprall-2 b8-2 c4^\prallmordent-3 ~  c8.-3 d16-4 d4.^\upprall-2   c8-1
+c4-1 ~  c16[-1 d(-2 ees-3 d]-2  c[-1 bes!-4 aes-3  g)]-2 f8[-1 d']-3 ~  d16[-3 ees(-4 f-5 ees]-4  d[-3 c-2 b-1  a)]-3 g[(-2 a-3 b-1 c]-2  d[-3 ees-4 f-5 d]-3  c[-2 b-1 c-2  b)]-1 g'4-5   ~  g16[-5 f-4 ees-3 d]-2 c4-1 ~ c16[-1
+bes-3 a-2 g]-1  a8[-2 f]-1 ees'4-3 ~ ees16[-3 des-2 c-1 des]-2  ees[-3 ges-5 f-4 ees]-3  des[-2 c-1 bes-3 aes!]-2 g!8[-1 bes']-4 ~  bes16[-4 aes(-3 g-2 f]-1  ees[-3 des-2 c-1  bes)]-3 aes8[-2 c-1 ees-2 g]-3 aes4-4 ~ aes16[-4 g-3 f-1 ees]-3  des[-2 bes-1 aes'8]-4
+g4-5 g16[-5 f-4 ees-3 des]-2  c[-1   aes-2 ges'8]-5 f4-4   ~ f16[-4 ees-3 des-2 c]-1  bes[-3 aes-2 g-1 aes]-2 bes4-3 ~ bes16[-3 aes-2 g-1 f]-3  e[-2 f-3 g-1 aes]-2  bes[-3 c-4 des-5 bes]-3 c[-4 bes-3 aes-2 g]-1  aes8[-2 f]-1 des'4-5 ~ des16[-5 c-4 bes-3 a]-2  bes8[-3 g]-1 e'4-4 ~ e16[-4 f-1 g-2 aes]-3  bes8[-4 g16-3 e]-1  des!8[-2 c]-1 bes16[(-3 aes-2 g-1 aes]-2  bes[-3 des-5 c-4 bes]-3  aes[-2 g-1 f-2  e)]-1 c'8.-4 des16-5 g,4.^\downprall-2 f8-1 f2.^\fermata-1

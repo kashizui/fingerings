@@ -105,15 +105,13 @@ def run_command_line(args):
             return True 
 
     states, parameters = pickle.load( args.parameters )
-    featureFunction = features.extract #get_feature_function( args.featureFunction )
 
-    crf = LinearChainCRF( states, featureFunction, parameters ) 
+    crf = LinearChainCRF( states, features.extract, parameters ) 
     cmdline = CRFCommandLine(crf)
     cmdline.cmdloop()
 
 def run_trainer(args):
     import pickle
-    featureFunction = features.extract #get_feature_function( args.featureFunction )
     print "Loading dataset..."
     train = load_all_data( args.trainData )
     try:
@@ -121,9 +119,13 @@ def run_trainer(args):
     except IOError:
         print 'Could not load dev data, ignoring.'
         dev = []
-    print "Training on %d sentences and evaluating on dev set of %s sentences" % (len(train), len(dev) )
 
-    crf = crfUtils.trainLinearChainCRF( train, featureFunction, args.iters, dev )
+    train_notes = sum(len(passage[0]) for passage in train)
+    dev_notes = sum(len(passage[0]) for passage in dev)
+    print "Training on %d passages (%d notes) and evaluating on dev set of %s passages (%s notes)" \
+            % (len(train), train_notes, len(dev), dev_notes)
+
+    crf = crfUtils.trainLinearChainCRF( train, features.extract, args.iters, dev )
 
     print "Training done."
 
@@ -143,7 +145,7 @@ if __name__ == '__main__':
 
     train_parser = subparsers.add_parser('train', help='Train a CRF' )
     train_parser.add_argument('--trainData', type=str, default='manual', help='Directory to use for training-set data' )
-    train_parser.add_argument('--devData', type=str, default='manual', help='Directory to use for development-set data' )
+    train_parser.add_argument('--devData', type=str, default='devdata', help='Directory to use for development-set data' )
     train_parser.add_argument('--numData', type=int, default=2000, help='Amount of data to load' )
     train_parser.add_argument('--iters', type=int, default=10, help='Number of iterations to run' )
     train_parser.add_argument('--output-path', default='', type=str, help='Path to store the trained wieghts' )
