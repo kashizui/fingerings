@@ -1,6 +1,7 @@
 """
+Utility functions and classes.
+
 Originally from: Stanford CS221 Assignment 'ner'
-Utility functions
 """
 
 import sys

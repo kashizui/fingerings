@@ -1,3 +1,8 @@
+"""
+Feature extractors for fingering linear chain CRFs.
+
+Stephen Koo & Mark Peng 2013
+"""
 from collections import Counter
 
 def calculateFingeringGap(f1, f2):

@@ -1,3 +1,7 @@
+#!/usr/bin/env python2.7
+"""
+Testing sandbox.
+"""
 import os
 import json
 from parse import Score

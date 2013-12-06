@@ -1,3 +1,6 @@
+"""
+Tools for parsing Lilypond data.
+"""
 import re
 import util
 import math
