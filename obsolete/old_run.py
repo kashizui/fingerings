@@ -19,3 +19,34 @@ def buildArgs():
 
 if __name__ == '__main__':
     args = buildArgs()
+
+
+
+        # def do_lrgibbs_best(self, value):
+        #     """Run Gibbs sampling to produce the best labelling for
+        #     given input value"""
+        #     xs = parse_line(value)
+
+        #     ys = computeGibbsBestSequence( 
+        #             self.crf, 
+        #             getLongRangeCRFBlocks,
+        #             chooseGibbsLongRangeCRF,
+        #             xs,
+        #             10000 )
+
+        #     print pretty_format(ys)
+
+        # def do_lrgibbs_dist(self, value):
+        #     """Run Gibbs sampling to produce the best labelling for
+        #     given input value"""
+        #     xs = parse_line(value)
+
+        #     ys = computeGibbsProbabilities( 
+        #             self.crf, 
+        #             getLongRangeCRFBlocks,
+        #             chooseGibbsLongRangeCRF,
+        #             xs,
+        #             10000 )
+
+        #     for label, pr in ys.most_common(10):
+        #         print pr, '\t', pretty_format(label)

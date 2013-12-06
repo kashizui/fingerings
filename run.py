@@ -1,22 +1,18 @@
 #!/usr/bin/env python2.7
 """
-CS221 Assignment 'ner'
-Owner: Arun Chaganty
+Command-line interface for fingering generator.
 
-Command-line interface for assignment.
+Based off of "run.py" from Stanford CS221 Assignment 'ner' (2013).
+
 Run 'python run.py' for options and help.
 """
 
-from submission import *
-import crfUtils
+from inference import *
+import learning.py
 import features
 from parse import Score, parse_line, pretty_format
 import util
 import os
-
-def load_all_data(directory):
-    filenames = [os.path.join(directory, path) for path in os.listdir(directory)]
-    return sum((Score(open(filename), relative=True).passages for filename in filenames), [])
 
 def run_command_line(args):
     """Run a command line interpreter"""
@@ -68,35 +64,6 @@ def run_command_line(args):
             for label, pr in ys.most_common(10):
                 print pr, '\t', pretty_format(label)
 
-        def do_lrgibbs_best(self, value):
-            """Run Gibbs sampling to produce the best labelling for
-            given input value"""
-            xs = parse_line(value)
-
-            ys = computeGibbsBestSequence( 
-                    self.crf, 
-                    getLongRangeCRFBlocks,
-                    chooseGibbsLongRangeCRF,
-                    xs,
-                    10000 )
-
-            print pretty_format(ys)
-
-        def do_lrgibbs_dist(self, value):
-            """Run Gibbs sampling to produce the best labelling for
-            given input value"""
-            xs = parse_line(value)
-
-            ys = computeGibbsProbabilities( 
-                    self.crf, 
-                    getLongRangeCRFBlocks,
-                    chooseGibbsLongRangeCRF,
-                    xs,
-                    10000 )
-
-            for label, pr in ys.most_common(10):
-                print pr, '\t', pretty_format(label)
-
         def do_quit(self, value):
             """Exit the interpreter"""
             return True 
@@ -125,13 +92,17 @@ def run_trainer(args):
     print "Training on %d passages (%d notes) and evaluating on dev set of %s passages (%s notes)" \
             % (len(train), train_notes, len(dev), dev_notes)
 
-    crf = crfUtils.trainLinearChainCRF( train, features.extract, args.iters, dev )
+    crf = learning.trainLinearChainCRF( train, features.extract, args.iters, dev )
 
     print "Training done."
 
     if args.output_path:
         pickle.dump( (crf.TAGS, crf.parameters), open(args.output_path, 'w') )
         print "Saved model to ", args.output_path
+
+def load_all_data(directory):
+    filenames = [os.path.join(directory, path) for path in os.listdir(directory)]
+    return sum((Score(open(filename), relative=True).passages for filename in filenames), [])
 
 if __name__ == '__main__':
     import argparse

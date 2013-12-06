@@ -1,13 +1,15 @@
 """
-Originally from:
-CS221 Assignment 'ner'
-Owner: Arun Chaganty
+Originally from: Stanford CS221 Assignment 'ner'
 Utility functions
 """
 
 import sys
 import math, time, random, re
 from collections import Sequence
+
+###########################
+# START ORIGINAL NER CODE #
+###########################
 
 def argmax(f, xs):
     """Our reference argmax implementation"""
@@ -170,9 +172,13 @@ class Timer:
         "Resets time without changing state"""
         self.__ticks = time.time()
 
+#########################
+# END ORIGINAL NER CODE #
+#########################
 
 def itersplit(s, sep=None):
-    """Generator equivalent to string.split().
+    """
+    Generator equivalent to string.split().
     Found on StackOverflow:
     http://stackoverflow.com/questions/3862010/is-there-a-generator-version-of-string-split-in-python
     """

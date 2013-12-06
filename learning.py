@@ -1,8 +1,8 @@
-#!/usr/bin/env python2.7
-# Specific additional functions for NER
-
+"""
+Linear Chain CRF parameter learning tools.
+"""
 import util
-from submission import *
+from inference import *
 import itertools as it
 
 ###################################

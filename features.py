@@ -18,7 +18,7 @@ def extract(t, y_, y, xs):
     @param t int - index in the observation sequence, 0-based.
     @param y_ string - value of fingering at time t-1 (y_{t-1}),
     @param y string - value of of fingering at time t (y_{t}),
-    @param xs list string - The full observation seqeunce of notes.
+    @param xs list string - The full observation sequence of notes.
     @return Counter - feature vector
     """
 

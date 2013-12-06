@@ -8,56 +8,26 @@ FINGERING = re.compile(r'-([1-5])|\^"([1-5])"')
 BASE_OCTAVE = 3
 OCTAVE_SIZE = 12
 REL_SEARCH_RADIUS = OCTAVE_SIZE / 2
-
+NUM_LETTERS = 7
 PITCH_CLASS = {
-	"c" 	: 0,
-	"deses" : 0,
-	"bis" 	: 0,
-	"cis"	: 1,
-	"des"	: 1,
-	"bisis"	: 1,
-	"d"		: 2,
-	"cisis"	: 2,
-	"eeses"	: 2,
-	"dis"	: 3,
-	"ees"	: 3,
-	"feses"	: 3,
-	"e"		: 4,
-	"disis"	: 4,
-	"fes"	: 4,
-	"f"		: 5,
-	"eis"	: 5,
-	"geses"	: 5,
-	"fis"	: 6,
-	"ges"	: 6,
-	"eisis"	: 6,
-	"g"		: 7,
-	"fisis"	: 7,
-	"aeses"	: 7,
-	"gis"	: 8,
-	"aes"	: 8,
-	"a"		: 9,
-	"gisis"	: 9,
-	"beses"	: 9,
-	"ais"	: 10,
-	"bes"	: 10,
-	"ceses"	: 10,
-	"b"		: 11,
-	"aisis"	: 11,
-	"ces"	: 11
+	"c" 	: 0,	"deses" : 0,	"bis" 	: 0,
+	"cis"	: 1,	"des"	: 1,	"bisis"	: 1,
+	"d"		: 2,	"cisis"	: 2,	"eeses"	: 2,
+	"dis"	: 3,	"ees"	: 3,	"feses"	: 3,
+	"e"		: 4,	"disis"	: 4,	"fes"	: 4,
+	"f"		: 5,	"eis"	: 5,	"geses"	: 5,
+	"fis"	: 6,	"ges"	: 6,	"eisis"	: 6,
+	"g"		: 7,	"fisis"	: 7,	"aeses"	: 7,
+	"gis"	: 8,	"aes"	: 8,
+	"a"		: 9,	"gisis"	: 9,	"beses"	: 9,
+	"ais"	: 10,	"bes"	: 10,	"ceses"	: 10,
+	"b"		: 11,	"aisis"	: 11,	"ces"	: 11
 }
-
 LETTER = {
-	"c" 	: 0,
-	"d"		: 1,
-	"e"		: 2,
-	"f"		: 3,
-	"g"		: 4,
-	"a"		: 5,
+	"c" 	: 0,	"d"		: 1,	"e"		: 2,
+	"f"		: 3,	"g"		: 4,	"a"		: 5,
 	"b"		: 6
 }
-
-NUM_LETTERS = 7
 
 class Score(object):
 	def __init__(self, fp, relative=False, sep=None):
@@ -80,6 +50,9 @@ class Score(object):
 				self.parse(line)
 
 	def read_note(self, token):
+		"""
+		Returns integer representation of pitch in note token.
+		"""
 		note_match = NOTE.match(token)
 		if not note_match:
 			return None
@@ -118,11 +91,17 @@ class Score(object):
 		return note
 
 	def read_fingering(self, token):
+		"""
+		Returns integer representation of fingering in note token.
+		"""
 		fingering_match = FINGERING.search(token)
 		fingering = max(fingering_match.groups()) if fingering_match else 0
 		return int(fingering)
 
 	def parse(self, line):
+		"""
+		Parse a string into a new passage, added to self.passages.
+		"""
 		passage = []
 		fingerings = []
 		for token in util.itersplit(line):

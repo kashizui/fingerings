@@ -1,9 +1,0 @@
-Possible features:
-Unary features: Current note and fingering
-Binary features: Fingerings of current and previous notes
-Other features:
-	Feature for current fingering and previous note
-	Feature for current fingering and next note
-	Feature for gap between current and previous notes AND gap between current and previous fingerings
-	Feature for current fingering and gap between current and previous notes (if gap is large, then 2 and 3 less likely)
-	Feature for current fingering and gap between current and next notes (if gap is large, then... 3,4,5 less likely?)
