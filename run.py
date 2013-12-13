@@ -8,7 +8,7 @@ Run 'python run.py' for options and help.
 """
 
 from inference import *
-import learning.py
+import learning
 import features
 from parse import Score, parse_line, pretty_format
 import util
