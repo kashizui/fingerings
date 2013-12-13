@@ -56,9 +56,9 @@ def extract(t, y_, y, xs):
         # indicator for direct relationship between notes and fingerings
         features[('MAPPING', xc_, x - x_, y_, y)] = 1.0
         # crossover problem indicator (downwards)
-        features['CROSSDOWN'] = float(y_ != 1 and y < y_ and x < x_)
+        features['CROSSDOWN'] = float(y_ != 1 and y > y_ and x_ - x == 1)
         # crossover problem indicator (upwards)
-        features['CROSSUP'] = float(y != 1 and y > y_ and x > x_)
+        features['CROSSUP'] = float(y != 1 and y < y_ and x - x_ == 1)
     
     ## LOOKAHEADS
     if t == (len(xs) - 1):
