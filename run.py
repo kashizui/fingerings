@@ -117,7 +117,6 @@ if __name__ == '__main__':
     train_parser = subparsers.add_parser('train', help='Train a CRF' )
     train_parser.add_argument('--trainData', type=str, default='train', help='Directory to use for training-set data' )
     train_parser.add_argument('--devData', type=str, default='dev', help='Directory to use for development-set data' )
-    train_parser.add_argument('--numData', type=int, default=2000, help='Amount of data to load' )
     train_parser.add_argument('--iters', type=int, default=10, help='Number of iterations to run' )
     train_parser.add_argument('--output-path', default='', type=str, help='Path to store the trained wieghts' )
     train_parser.set_defaults(func=run_trainer)
