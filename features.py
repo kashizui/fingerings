@@ -36,12 +36,11 @@ def extract(t, y_, y, xs):
     # extract pitch classes
     xc_, xc = (x_ % 12), (x % 12)
     
-    ## BIAS
-    features['BIAS'] = 1.0
-
-    ## LOOKBACKS
+    ## MYOPIC FEATURES
     # Direct feature on the consecutive pair of fingerings
     features[(y_, y)] = 1.0
+
+    ## LOOKBACKS
     if t == 0:
         # indicator feature on y and that it's the beginning
         features[('PREV', y, '-BEGIN-')] = 1.0
@@ -51,14 +50,14 @@ def extract(t, y_, y, xs):
         # indicator feature on y or y_ and the jump from previous note
         features[('GAP', y, x - x_)] = 1.0
         features[('GAP_', y_, x - x_)] = 1.0
-        # stretch factor, conditioned on whether or not one of the fingers is a thumb
-        features[('STRETCH', (y_ == 1 or y == 1))] = (abs(x - x_) + 1) / (abs(y - y_) + 1)
+        # stretch factor, conditioned on whether or not the previous finger was thumb
+        features[('STRETCH', (y_ == 1))] = (abs(x - x_) + 1) / (abs(y - y_) + 1)
         # indicator for direct relationship between notes and fingerings
         features[('MAPPING', xc_, x - x_, y_, y)] = 1.0
         # crossover problem indicator (downwards)
-        features['CROSSDOWN'] = float(y_ != 1 and y > y_ and x_ - x == 1)
+        features['CROSSDOWN'] = float(y_ != 1 and y < y_ and x < x_)
         # crossover problem indicator (upwards)
-        features['CROSSUP'] = float(y != 1 and y < y_ and x - x_ == 1)
+        features['CROSSUP'] = float(y != 1 and y > y_ and x > x_)
     
     ## LOOKAHEADS
     if t == (len(xs) - 1):
