@@ -31,3 +31,7 @@ Try out the fingering generator from the provided shell interface. The example g
     >> viterbi fis'' g a c, b e fis g b, a d e fis a, g fis' e d cis b' a g
     >> gibbs_best fis'' g a c, b e fis g b, a d e fis a, g fis' e d cis b' a g
     >> gibbs_dist fis'' g a c, b e fis g b, a d e fis a, g fis' e d cis b' a g
+
+To try out further examples on your own, refer to the LilyPond documentation for the note syntax.
+http://lilypond.org/doc/v2.16/Documentation/notation/writing-pitches
+We utilize the "relative octave entry" mode, with the very first note written in absolute octave mode for reference.
