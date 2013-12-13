@@ -100,6 +100,69 @@ def run_trainer(args):
         pickle.dump( (crf.TAGS, crf.parameters), open(args.output_path, 'w') )
         print "Saved model to ", args.output_path
 
+def isIllegal(pair1, pair2):
+    if (pair2[0] - pair1[0]) > 0:
+        if pair2[1] < pair1[1] and pair2[1] != 1:
+            return 1
+    elif (pair2[0] - pair1[0]) < 0:
+        if pair2[1] > pair1[1] and pair1[1] != 1:
+            return 1
+    return 0
+
+
+def check_baseline(args):
+    import pickle
+    states, parameters = pickle.load( args.parameters )
+    crf = LinearChainCRF( states, features.extract, parameters )
+    
+    print "Loading dataset..."
+    try:
+        dev = load_all_data( args.devData )
+    except IOError:
+        print 'Could not load dev data, ignoring.'
+        dev = []
+    numIllegal = 0
+    numNotes = 0
+    for notes, fingerings in dev:
+        computedFingerings = computeGibbsBestSequence(
+                                crf,
+                                getCRFBlocks,
+                                chooseGibbsCRF,
+                                notes,
+                                10000 )
+        numNotes += len(notes)
+        for i in range(0, len(computedFingerings) - 1):
+            numIllegal += isIllegal((notes[i], computedFingerings[i]), (notes[i+1], computedFingerings[i+1]))
+    print "Found %d illegal fingerings out of %d fingerings (%.2f%% legal)" \
+            % (numIllegal, numNotes, float(100 - (numIllegal / numNotes * 100)))
+
+def check_optimal(args):
+    import pickle
+    states, parameters = pickle.load( args.parameters )
+    crf = LinearChainCRF( states, features.extract, parameters )
+    
+    print "Loading dataset..."
+    try:
+        dev = load_all_data( args.devData )
+    except IOError:
+        print 'Could not load dev data, ignoring.'
+        dev = []
+    numUnmatched = 0
+    numNotes = 0
+    for notes, fingerings in dev:
+        computedFingerings = computeGibbsBestSequence(
+                                                      crf,
+                                                      getCRFBlocks,
+                                                      chooseGibbsCRF,
+                                                      notes,
+                                                      10000 )
+        numNotes += len(notes)
+        for i in range(0, len(computedFingerings)):
+            if computedFingerings[i] != fingerings[i]:
+                numUnmatched += 1
+    print "Found %d unmatched fingerings out of %d fingerings (%.2f%% matching)" \
+        % (numUnmatched, numNotes, 100 - (float(numUnmatched) / numNotes * 100))
+
 def load_all_data(directory):
     filenames = [os.path.join(directory, path) for path in os.listdir(directory)]
     return sum((Score(open(filename), relative=True).passages for filename in filenames), [])
@@ -120,6 +183,16 @@ if __name__ == '__main__':
     train_parser.add_argument('--iters', type=int, default=10, help='Number of iterations to run' )
     train_parser.add_argument('--output-path', default='', type=str, help='Path to store the trained wieghts' )
     train_parser.set_defaults(func=run_trainer)
+    
+    baseline_parser = subparsers.add_parser('baseline', help='Check fingerings with baseline evaluation metric' )
+    baseline_parser.add_argument('--devData', type=str, default='dev', help='Directory to use for development-set data' )
+    baseline_parser.add_argument('--parameters', required=True, type=file, help='Use the parameters stored in this file for your CRF' )
+    baseline_parser.set_defaults(func=check_baseline)
+    
+    baseline_parser = subparsers.add_parser('optimal', help='Check fingerings with optimal evaluation metric' )
+    baseline_parser.add_argument('--devData', type=str, default='dev', help='Directory to use for development-set data' )
+    baseline_parser.add_argument('--parameters', required=True, type=file, help='Use the parameters stored in this file for your CRF' )
+    baseline_parser.set_defaults(func=check_optimal)
 
     args = parser.parse_args()
     args.func(args)
