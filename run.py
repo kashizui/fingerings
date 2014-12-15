@@ -5,6 +5,8 @@ Command-line interface for fingering generator.
 Based off of "run.py" from Stanford CS221 Assignment 'ner' (2013).
 
 Run 'python run.py' for options and help.
+
+Authors: Stephen Koo, Mark Peng 2013
 """
 
 from inference import *

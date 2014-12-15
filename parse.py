@@ -1,5 +1,7 @@
 """
 Tools for parsing Lilypond data.
+
+Author: Stephen Koo 2013
 """
 import re
 import util

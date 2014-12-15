@@ -1,7 +1,7 @@
 """
 Feature extractors for fingering linear chain CRFs.
 
-Stephen Koo & Mark Peng 2013
+Authors: Stephen Koo, Mark Peng 2013
 """
 from collections import Counter
 

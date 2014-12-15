@@ -1,5 +1,7 @@
 """
 Linear Chain CRF parameter learning tools.
+
+Created by the Stanford CS221 Autumn 2013 course staff.
 """
 import util
 from inference import *

@@ -1,7 +1,8 @@
 """
 Utility functions and classes.
 
-Originally from: Stanford CS221 Assignment 'ner'
+Created by the Stanford CS221 Autumn 2013 course staff.
+Originally "util.py" from the "ner" assignment.
 """
 
 import sys

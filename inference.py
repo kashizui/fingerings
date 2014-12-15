@@ -3,8 +3,8 @@ Linear Chain CRF Inference Tools
 Functions for inference of linear chain CRFs using Viterbi algorithm
 and Gibbs sampling.
 
-Originally "submission.py" from Stanford CS221 Assignment 'ner'.
-As completed by Stephen Koo, Autumn 2013.
+Created by the Stanford CS221 Autumn 2013 course staff.
+Originally "submission.py" from the "ner" assignment.
 """
 
 import itertools as it
