@@ -9,11 +9,9 @@ Run 'python run.py' for options and help.
 Authors: Stephen Koo, Mark Peng 2013
 """
 
-from inference import *
-import learning
-import features
-from parse import Score, parse_line, pretty_format
-import util
+from fingerings.inference import *
+from fingerings.parse import Score, parse_line, pretty_format
+from fingerings import learning, features, util
 import os
 
 def run_command_line(args):
